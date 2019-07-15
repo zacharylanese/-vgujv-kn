@@ -23,9 +23,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey("escape"))
         Application.Quit(); 
     }
-    void OnCollissionStay2D(Collision2D collission)
+    void OnCollisionStay2D(Collision2D collision)
     {
-        if(collission.collider.tag == "Ground")
+        if(collision.collider.tag == "Ground")
         {
             if(Input.GetKey(KeyCode.UpArrow))
             {
