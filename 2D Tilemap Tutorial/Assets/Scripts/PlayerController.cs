@@ -14,25 +14,81 @@ public class PlayerController : MonoBehaviour
     public Text winText;
     public Text loseText;
     public float jumpForce;
+    public AudioClip musicClipOne;
+    public AudioClip musicClipTwo;
+    public AudioClip musicClipThree;
+    public AudioSource musicSource;
+    Animator anim;
+    private bool facingRight = true;
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         score = 0;
         lives = 3;
         winText.text = "";
         loseText.text = "";
         SetScoreText();
         SetLivesText();
+        musicSource.clip = musicClipOne;
+        musicSource.Play();
     }
     void Update()
     {
-        
+        if(lives == 0)
+        {
+            musicSource.clip = musicClipTwo;
+        }
+        if(score >= 8)
+        {
+            musicSource.clip = musicClipThree;
+        }
+        if(Input.GetKeyDown (KeyCode.UpArrow))
+        {
+            anim.SetInteger("State",2);
+        }
+        if(Input.GetKeyUp (KeyCode.UpArrow))
+        {
+            anim.SetInteger("State",0);
+        }
+        if(Input.GetKeyDown (KeyCode.LeftArrow))
+        {
+            anim.SetInteger("State",1);
+        }
+        if(Input.GetKeyUp (KeyCode.LeftArrow))
+        {
+            anim.SetInteger("State",0);
+        }
+        if(Input.GetKeyDown (KeyCode.RightArrow))
+        {
+            anim.SetInteger("State",1);
+        }
+        if(Input.GetKeyUp (KeyCode.RightArrow))
+        {
+            anim.SetInteger("State",0);
+        }
+        if(Input.GetKeyDown (KeyCode.UpArrow))
+        {
+            anim.SetInteger("State 0",2);
+        }
+        if(Input.GetKeyUp (KeyCode.UpArrow))
+        {
+            anim.SetInteger("State 0",0);
+        }
     }
     void FixedUpdate()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
         Vector2 movement = new Vector2(moveHorizontal, 0);
         rb2d.AddForce(movement * speed);
+        if (facingRight == false && moveHorizontal > 0)
+        {
+        Flip();
+        }
+        else if (facingRight == true && moveHorizontal < 0)
+        {
+        Flip();
+        }
         if (Input.GetKey("escape"))
         Application.Quit(); 
     }
@@ -43,6 +99,7 @@ public class PlayerController : MonoBehaviour
             if(Input.GetKey(KeyCode.UpArrow))
             {
                 rb2d.AddForce(new Vector2(0, jumpForce), ForceMode2D.Impulse);
+                
             }
         }   
     }
@@ -62,7 +119,8 @@ public class PlayerController : MonoBehaviour
         }
         if (score == 4)
         {
-        transform.position= new Vector2(1f,1f);
+        transform.position= new Vector2(25f,-2f);
+        lives = 3;
         }
     }
     void SetScoreText()
@@ -78,7 +136,15 @@ public class PlayerController : MonoBehaviour
         livesText.text = "Lives: " + lives.ToString ();
         if (lives == 0)
         {
+            gameObject.SetActive (false);
             loseText.text = "You Lose!";
         }
+    }
+    void Flip()
+    {
+        facingRight = !facingRight;
+        Vector2 Scaler = transform.localScale;
+        Scaler.x = Scaler.x * -1;
+        transform.localScale = Scaler;
     }
 }
