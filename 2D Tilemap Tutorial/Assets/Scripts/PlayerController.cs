@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-        if(lives == 0)
+         if(lives == 0)
         {
             musicSource.clip = musicClipTwo;
         }
@@ -69,11 +69,11 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKeyDown (KeyCode.UpArrow))
         {
-            anim.SetInteger("State 0",2);
+            anim.SetInteger("State",2);
         }
         if(Input.GetKeyUp (KeyCode.UpArrow))
         {
-            anim.SetInteger("State 0",0);
+            anim.SetInteger("State",0);
         }
     }
     void FixedUpdate()
@@ -94,7 +94,7 @@ public class PlayerController : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.collider.tag == "Ground")
+        if(collision.collider.CompareTag ("Ground"));
         {
             if(Input.GetKey(KeyCode.UpArrow))
             {
