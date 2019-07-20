@@ -73,8 +73,6 @@ public class PlayerController : MonoBehaviour
         {
         Flip();
         }
-        if (Input.GetKey("escape"))
-        Application.Quit(); 
     }
     void OnCollisionStay2D(Collision2D collision)
     {
@@ -116,6 +114,7 @@ public class PlayerController : MonoBehaviour
             gameObject.SetActive (false);
             loseText.text = "You Lose!";
             musicSource.clip = musicClipTwo;
+            musicSource.Play();
         }
    }
     void SetScoreText()
@@ -125,6 +124,7 @@ public class PlayerController : MonoBehaviour
         {
            winText.text = "You Win!";
            musicSource.clip = musicClipThree;
+           musicSource.Play();
         }
     }
     void SetLivesText()
