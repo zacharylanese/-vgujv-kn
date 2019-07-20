@@ -35,14 +35,6 @@ public class PlayerController : MonoBehaviour
     }
     void Update()
     {
-         if(lives == 0)
-        {
-            musicSource.clip = musicClipTwo;
-        }
-        if(score >= 8)
-        {
-            musicSource.clip = musicClipThree;
-        }
         if(Input.GetKeyDown (KeyCode.UpArrow))
         {
             anim.SetInteger("State",2);
@@ -67,14 +59,6 @@ public class PlayerController : MonoBehaviour
         {
             anim.SetInteger("State",0);
         }
-        if(Input.GetKeyDown (KeyCode.UpArrow))
-        {
-            anim.SetInteger("State",2);
-        }
-        if(Input.GetKeyUp (KeyCode.UpArrow))
-        {
-            anim.SetInteger("State",0);
-        }
     }
     void FixedUpdate()
     {
@@ -94,7 +78,7 @@ public class PlayerController : MonoBehaviour
     }
     void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.collider.CompareTag ("Ground"));
+        if(collision.collider.CompareTag ("Ground"))
         {
             if(Input.GetKey(KeyCode.UpArrow))
             {
@@ -103,13 +87,14 @@ public class PlayerController : MonoBehaviour
             }
         }   
     }
-    void OnTriggerEnter2d(Collider2D other)
-    {
-        if (other.gameObject.CompareTag ("PickUp"))
+    void OnTriggerEnter2D(Collider2D other)
+   {
+        if (other.gameObject.CompareTag("PickUp"))
         {
-            other.gameObject.SetActive (false);
-            score = score + 1;
-            SetScoreText();
+           other.gameObject.SetActive(false);
+           score = score + 1;
+           SetScoreText();
+           
         }
         if (other.gameObject.CompareTag ("Enemy PickUp"))
         {
@@ -119,26 +104,32 @@ public class PlayerController : MonoBehaviour
         }
         if (score == 4)
         {
-        transform.position= new Vector2(25f,-2f);
-        lives = 3;
+            if (other.gameObject.CompareTag("PickUp"))
+            {
+                transform.position= new Vector2(25f,-2f);
+                lives = 3;
+                SetLivesText();
+            }
         }
-    }
+        if (lives == 0)
+        {
+            gameObject.SetActive (false);
+            loseText.text = "You Lose!";
+            musicSource.clip = musicClipTwo;
+        }
+   }
     void SetScoreText()
     {
         scoreText.text = "Score: " + score.ToString ();
-        if (score >= 4)
+        if (score >= 8)
         {
            winText.text = "You Win!";
+           musicSource.clip = musicClipThree;
         }
     }
     void SetLivesText()
     {
         livesText.text = "Lives: " + lives.ToString ();
-        if (lives == 0)
-        {
-            gameObject.SetActive (false);
-            loseText.text = "You Lose!";
-        }
     }
     void Flip()
     {
